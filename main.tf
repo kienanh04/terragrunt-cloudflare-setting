@@ -3,6 +3,11 @@ provider "aws" {
   profile = "${var.aws_profile}"
 }
 
+provider "cloudflare" {
+  email = "${var.cf_email}"
+  token = "${var.cf_token}"
+}
+
 terraform {
   backend "s3" {}
 }
