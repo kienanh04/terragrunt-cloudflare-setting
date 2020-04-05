@@ -1,3 +1,6 @@
+variable "aws_region" { default = "us-west-2" }
+variable "aws_profile" { default = "default" }
+
 variable "cf_email" {}
 variable "cf_token" {}
 variable "cf_srv_email" {}
