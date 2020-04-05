@@ -2,6 +2,18 @@ terraform {
   backend "s3" {}
 }
 
+data "aws_eip" "this" {
+  count = "${var.server_ip == "" ? 1 : 0}"
+  filter {
+    name   = "tag:Name"
+    values = ["${var.eip_name}"]
+  }
+}
+
+locals {
+  server_ip = "${coalesce(var.server_ip,element(coalescelist(data.aws_eip.this.*.public_ip,list()),0))}"
+}
+
 module "cloudflare_setting" {
   source = "git::https://github.com/thanhbn87/terraform-others.git//cloudflare?ref=tags/0.1.0"
 
@@ -19,7 +31,7 @@ module "cloudflare_setting" {
   domain_is_sub = "${var.domain_is_sub}"
   cf_proxied    = "${var.cf_proxied}"
   whitelist_ip  = "${var.whitelist_ip}"
-  server_ip     = "${var.server_ip}"
+  server_ip     = "${local.server_ip}"
   
   cf_always_https      = "${var.cf_always_https}"
   cf_setting_override  = "${var.cf_setting_override}"
