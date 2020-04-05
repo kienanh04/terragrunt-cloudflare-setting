@@ -7,6 +7,7 @@ variable "cf_pro" { default = false }
 variable "group" { default = "group" }
 variable "name" { default = "server" }
 variable "domain_list" { default = [] }
+variable "domain_srv" { default = "example.com" }
 variable "domain_is_sub" { default = false }
 variable "server_ip" { default = "" }
 variable "eip_name" { default = "default" }
